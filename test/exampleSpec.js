@@ -1,4 +1,4 @@
-var helloWorld = require('../src/helloWorld');
+var helloWorld = require('../commands/helloWorld');
 var assert = require('assert');
 
 

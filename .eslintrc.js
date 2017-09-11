@@ -22,7 +22,7 @@ module.exports = {
             "error",
             "always"
         ],
-        "no-console": "warn",
+        "no-console": 0, // 'warn' or 'error' are also valid options
         "no-unused-vars": 0
     }
 };

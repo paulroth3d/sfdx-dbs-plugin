@@ -11,10 +11,22 @@ module.exports = function(grunt){
 					configFile: './.eslintrc.js'
 				}
 			}
+		},
+		watch: {
+			commands: {
+			  files: ['commands/**/*'],
+			  tasks: ['default'],
+			  options: {
+			    spawn: false
+			  }
+			}
 		}
 	});
 	
 	grunt.loadNpmTasks('gruntify-eslint');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	
 	grunt.registerTask('default',['eslint']);
+	grunt.registerTask('lintCommands',['eslint:commands']);
+	grunt.registerTask('watchCommands',['watch:commands']);
 };

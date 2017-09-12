@@ -181,8 +181,8 @@ const Q=require('q');
         })
         .then(function(results){
           console.log('\n\n' +
-            'When running as:' + results.context.hostname + '\n' +
-            'at ' + results.context.time + '\n' +
+            //'When running as:' + results.context.hostname + '\n' +
+            'At ' + results.context.time + '\n' +
             'the following logs were found:\n'
           );
           console.log(JSON.stringify(results.msg,null,2));

@@ -73,6 +73,7 @@ const Q=require('q');
    * @return Object - parsed object
    **/
   function getContextObject(lastLineFromFile){
+    //console.log('context object');
     let deferred=Q.defer();
     try {
       let contextObj=JSON.parse(lastLineFromFile);
@@ -92,6 +93,7 @@ const Q=require('q');
    *  @return (Object) - the parsed msg context
   **/
   function getMessageContext(context){
+    //console.log('getMessageContext');
     let deferred=Q.defer();
     let msg;
     
@@ -106,43 +108,57 @@ const Q=require('q');
     //console.log('found context.msg');
     
     //-- JSON does not support single quotes
-    let fixedMsg=context.msg.replace(/"/g, '\\"').replace(/'/g, '"');
     let msgArray;
     try {
-      msgArray=JSON.parse(fixedMsg);
-      if(!msgArray){
-        deferred.reject('unable to parse msg', msg);
-        return(deferred.promise);
-      }
-      
-      //console.log('found msg');
-      //console.log(JSON.stringify(msgArray,null,2));
+      msgArray=JSON.parse(context.msg);
     } catch(err){
-      deferred.reject('error occurred while parsing the log msg',fixedMsg);
-    }
-    
-    //console.log('found msgArray');
-    
-    let msgStr2;
-    for( var i = 0; i < msgArray.length; i++ ){
-      if(typeof msgArray[i] == 'string' ){
-        msgStr2=msgArray[i];
-        break;
+      try {
+        if(!msgArray){
+          let fixedMsg=context.msg.replace(/"/g, '\\"').replace(/\\'/g,'`').replace(/'/g, '"');
+          msgArray=JSON.parse(fixedMsg);
+        }
+      } catch(err){
+        deferred.reject('Error occurred while trying to parse the context.msg', context.msg);
       }
     }
     
-    //console.log('found msgStr2');
+    if(!msgArray){
+      deferred.reject('unable to parse msg', msg);
+      return(deferred.promise);
+    }
+    
+    //console.log('msgArray');console.log(JSON.stringify(msgArray,null,false));
     
     let finalMsg;
-    try {
-      finalMsg=JSON.parse(msgStr2);
-      if(!finalMsg){
-        deferred.reject('Unable to parse msg array',msgStr2);
-        return(deferred.promise);
+    if( typeof msgArray.length === 'undefined' ){
+      //console.log('it is an object');console.log(JSON.stringify(msgArray));
+      finalMsg = msgArray;
+    } else {
+      //console.log('it is an array');console.log(JSON.stringify(msgArray));
+      
+      let msgStr2;
+      for( var i = 0; i < msgArray.length; i++ ){
+        if(typeof msgArray[i] == 'string' ){
+          msgStr2=msgArray[i];
+          break;
+        }
       }
-    } catch(err){
-      deferred.reject('Error parsing the msg array',msgStr2);
+      
+      //console.log('msgStr2'); console.log(msgStr2);
+    
+      try {
+        finalMsg=JSON.parse(msgStr2);
+        if(!finalMsg){
+          deferred.reject('Unable to parse msg array',msgStr2);
+          return(deferred.promise);
+        }
+      } catch(err){
+        //console.log(JSON.stringify(err,null,2));
+        deferred.reject('Error parsing the msg array',msgStr2);
+      }
     }
+    
+    //console.log('found finalMsg');console.log(JSON.stringify(finalMsg,null,2));
     
     //console.log('found everything');
     //console.log(JSON.stringify(finalMsg,null,2));

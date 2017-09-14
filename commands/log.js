@@ -1,4 +1,4 @@
-/*esversion: 6*/
+/*jshint esversion: 6*/
 const fs = require('fs-extra');
 const path = require('path');
 const LineByLineReader = require('line-by-line');
@@ -101,69 +101,81 @@ const Q=require('q');
       deferred.reject('Empty context found',context);
       return(deferred.promise);
     } else if( !context.msg ){
-      deferred.reject('Log does not have msg',context);
+      //-- little we can do, so just provide the context as we have it.
+      deferred.resolve({context:context, msg:context});
       return(deferred.promise);
     }
     
-    //console.log('found context.msg');
+    //console.log('found context.msg'); console.log(JSON.stringify(context.msg,null,2));
+    //now check if the text is JSON
     
-    //-- JSON does not support single quotes
-    let msgArray;
+    if (!context.msg.match(/^(\[|\{)/)){
+      //console.log('Msg is not an object or array, so just return it'); console.log(context.msg);
+      deferred.resolve({context:context, msg:context.msg});
+      return(deferred.promise);
+    }
+    
+    //console.log('assume results is some form of JSON');
+    
+    //-- json does not support single quotes
+    let msgObj;
     try {
-      msgArray=JSON.parse(context.msg);
+      msgObj=JSON.parse(context.msg);
     } catch(err){
       try {
-        if(!msgArray){
-          let fixedMsg=context.msg.replace(/"/g, '\\"').replace(/\\'/g,'`').replace(/'/g, '"');
-          msgArray=JSON.parse(fixedMsg);
-        }
+        //-- attempt to escape quotes, correct escaped quotes and use double quotes because single are not allowed for definitions.
+        let fixedMsg=context.msg.replace(/"/g, '\\"').replace(/\\'/g,'`').replace(/'/g, '"');
+        msgObj=JSON.parse(fixedMsg);
       } catch(err){
-        deferred.reject('Error occurred while trying to parse the context.msg', context.msg);
+        //-- pr: the trouble is that the data is either a String, or JSON or an array of JSON, among other formats.
+        deferred.reject('Giving up trying to correct msg attribute - not valid JSON', context.msg);
       }
     }
     
-    if(!msgArray){
-      deferred.reject('unable to parse msg', msg);
-      return(deferred.promise);
+    if(!msgObj){
+      deferred.reject('unable to parse msg', JSON.stringify(context.msg, null, 2));
+      return (deferred.promise);
     }
     
-    //console.log('msgArray');console.log(JSON.stringify(msgArray,null,false));
+    //console.log('msgObj');console.log(JSON.stringify(msgObj,null,false));
     
-    let finalMsg;
-    if( typeof msgArray.length === 'undefined' ){
-      //console.log('it is an object');console.log(JSON.stringify(msgArray));
-      finalMsg = msgArray;
-    } else {
-      //console.log('it is an array');console.log(JSON.stringify(msgArray));
+    //-- determine if it is an array
+    
+    if( typeof msgObj.length === 'undefined' ){
+      console.log('it is an object');console.log(JSON.stringify(msgObj, null, 2));
+      deferred.resolve({context:context, msg:msgObj});
+      return (deferred.promise);
+    }
+    
+    //console.log('it is an array');console.log(JSON.stringify(msgObj, null, 2));
       
-      let msgStr2;
-      for( var i = 0; i < msgArray.length; i++ ){
-        if(typeof msgArray[i] == 'string' ){
+    let msgArray=msgObj;
+    let msgStr2;
+    let cleanedMsgArray=[];
+    for( var i = 0; i < msgArray.length; i++ ){
+      if (msgArray[i] && typeof msgArray[i] == 'string'){
+        
+        msgStr2=null;
+        
+        try {
+          msgStr2=JSON.parse(msgArray[i]);
+        } catch(err){
+          //console.log('error occurred while trying to parse array[' + i + ']'); console.log(JSON.stringify(err));
+          
           msgStr2=msgArray[i];
-          break;
         }
-      }
-      
-      //console.log('msgStr2'); console.log(msgStr2);
-    
-      try {
-        finalMsg=JSON.parse(msgStr2);
-        if(!finalMsg){
-          deferred.reject('Unable to parse msg array',msgStr2);
-          return(deferred.promise);
-        }
-      } catch(err){
-        //console.log(JSON.stringify(err,null,2));
-        deferred.reject('Error parsing the msg array',msgStr2);
+        
+        //-- either get an object or put the string.
+        cleanedMsgArray.push(msgStr2);
+      } else {
+        //-- not a string -- just add it.
+        cleanedMsgArray.push(msgArray[i]);
       }
     }
     
-    //console.log('found finalMsg');console.log(JSON.stringify(finalMsg,null,2));
+    //console.log('cleanedMsgArray'); console.log(JSON.stringify(cleanedMsgArray, null, 2));
     
-    //console.log('found everything');
-    //console.log(JSON.stringify(finalMsg,null,2));
-    deferred.resolve({context:context, msg:finalMsg});
-    
+    deferred.resolve({context:context, msg:cleanedMsgArray});
     return(deferred.promise);
   }
   
@@ -191,13 +203,12 @@ const Q=require('q');
           return(getContextObject(lastLineOfFile));
         })
         .then(function(contextObj){
-          //console.log('found context object');
-          //console.log(JSON.stringify(contextObj,null,2));
+          //console.log('found context object'); console.log(JSON.stringify(contextObj,null,2));
           return(getMessageContext(contextObj));
         })
         .then(function(results){
           console.log('\n\n' +
-            //'When running as:' + results.context.hostname + '\n' +
+            'When running as:' + results.context.hostname + '\n' +
             'At ' + results.context.time + '\n' +
             'the following logs were found:\n'
           );

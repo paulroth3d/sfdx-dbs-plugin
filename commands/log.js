@@ -18,6 +18,9 @@ const Q=require('q');
    *  @return (String) path to the user's home directory;
   **/
   function getHomeLog(context){
+    
+    //console.log(JSON.stringify(context));
+    
     let results = '';
     if( !context || !context.herokuDir ){
       throw('could not find home directory');
@@ -142,7 +145,7 @@ const Q=require('q');
     //-- determine if it is an array
     
     if( typeof msgObj.length === 'undefined' ){
-      console.log('it is an object');console.log(JSON.stringify(msgObj, null, 2));
+      //console.log('it is an object');console.log(JSON.stringify(msgObj, null, 2));
       deferred.resolve({context:context, msg:msgObj});
       return (deferred.promise);
     }
@@ -190,6 +193,13 @@ const Q=require('q');
       description: 'Format for output: json (default) or table',
       hasValue: true
     }],
+    
+    //-- @TODO: separate to separate module.
+    getHomeLog:getHomeLog,
+    getLastLineOfFile:getLastLineOfFile,
+    getContextObject:getContextObject,
+    getMessageContext:getMessageContext,
+    
     run(context){
       //console.log( 'ran the command' );
       //console.log( JSON.stringify(context,null,2) );

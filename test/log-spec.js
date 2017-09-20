@@ -2,7 +2,7 @@
 /*jshint esversion: 6, quotmark: double */
 
 let _ = require("underscore");
-let logModule = require("../commands/log");
+let logModule = require("../commands/log/latest");
 let assert = require("assert");
 let fs = require("fs-extra");
 

@@ -201,7 +201,7 @@ const Q=require('q');
     getMessageContext:getMessageContext,
     
     run(context){
-      //console.log( 'ran the command' );
+      //console.log( 'ran the command from the updates' );
       //console.log( JSON.stringify(context,null,2) );
       
       let homeLog=getHomeLog(context);

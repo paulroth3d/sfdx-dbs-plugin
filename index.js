@@ -1,4 +1,5 @@
-const logLatest = require('./commands/log/latest.js');
+const logLatest = require('./commands/log/latest');
+const compressDir = require('./commands/compress/dir');
 
 (function () {
   'use strict';
@@ -11,9 +12,13 @@ const logLatest = require('./commands/log/latest.js');
   exports.topics = [{
     name:'log',
     description: 'Reports on the latest cli JSON log',
+  }, {
+    name: 'compress',
+    description: 'Compressing functions'
   }];
   
   exports.commands = [
-    logLatest
+    logLatest,
+    compressDir
   ];
 }());

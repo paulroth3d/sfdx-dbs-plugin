@@ -22,17 +22,15 @@ const _=require('underscore');
   function compressDirectory(context){
     let deferred = Q.defer();
 
-    console.log('attempting to compress');
-    
     //-- do not default for now.
     //context = _.defaults(context,{});
-
+    
     //-- validate inputs
     if (!context.source){
       deferred.reject('INTERNAL ERROR: source is required');
       return (deferred.promise);
     }
-
+    
     if (!context.target){
       context.target = context.source + '.zip';
     }
@@ -42,25 +40,26 @@ const _=require('underscore');
 
     fs.pathExists(context.source)
       .then( function(exists){
+        console.log('context.source:' + context.source);
         if (exists){
-          
-          console.log('source does exist');
-
-          compress.gzip.compressDirectory(context.source,context.target)
-            .then(function(compressingDone){
-              deferred.resolve(context.target,context);
-            })
-            .catch(function(compressingError){
-              deferred.reject('UNEXPECTED ERROR',compressingError);
-            });
+          try {
+            compress.zip.compressDir(context.source, context.target)
+              .then(function(compressingDone){
+                deferred.resolve(context);
+              })
+              .catch(function(compressingError){
+                deferred.reject('UNEXPECTED ERROR', compressingError);
+              });
+          } catch (err){
+            deferred.reject('error occurred', arguments);
+          }
         } else {
           deferred.reject('source does not exist');
         }
       })
       .catch( function(err){
-        console.error('ERROR while compressing');
-        console.error(JSON.stringify(err,null,2));
-        deferred.reject('Could not find: ' + context.source);
+        console.error(JSON.stringify(err, null, 2));
+        deferred.reject('Unable to compress: ' + context.source);
       });
 
     return (deferred.promise);
@@ -84,14 +83,15 @@ const _=require('underscore');
     }],
     
     run(context){
+      var deferred=Q.defer();
       
       //console.log('start the compress command');
       //console.log(JSON.stringify(context, null, 2 ));
       
       compressDirectory(context.flags)
-        .then(function(resultPath, context){
-          console.log('successfully compressed: ' + context.source +
-          'to: ' + resultPath);
+        .then(function(context){
+          console.log('success');
+          deferred.resolve(true);
         })
         .catch(function(errMsg, errObject){
           if (errMsg){
@@ -102,8 +102,11 @@ const _=require('underscore');
 
           if (errObject){
             console.error(JSON.stringify(errObject, null, 2));
+            deferred.reject('failure occurred while compressing');
           }
         });
+      
+      return (deferred.promise);
     }
   };
 }());

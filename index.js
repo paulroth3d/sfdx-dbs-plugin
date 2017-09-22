@@ -1,5 +1,7 @@
-const logLatest = require('./commands/log/latest');
-const compressDir = require('./commands/compress/dir');
+/*jshint esversion: 6*/
+const log = require('./commands/log/latest');
+const compress = require('./commands/compress/dir');
+const exampleSayHello = require('./commands/example/example_sayHello');
 
 (function () {
   'use strict';
@@ -10,15 +12,19 @@ const compressDir = require('./commands/compress/dir');
   };
   
   exports.topics = [{
+    name:'example',
+    description: 'example namespace',
+  },{
     name:'log',
     description: 'Reports on the latest cli JSON log',
-  }, {
-    name: 'compress',
-    description: 'Compressing functions'
+  },{
+    name:'compress',
+    description: 'compress directory'
   }];
   
   exports.commands = [
-    logLatest,
-    compressDir
+    log,
+    compress,
+    exampleSayHello
   ];
 }());

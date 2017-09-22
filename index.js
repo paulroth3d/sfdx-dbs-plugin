@@ -2,6 +2,7 @@
 const log = require('./commands/log/latest');
 const compress = require('./commands/compress/dir');
 const exampleSayHello = require('./commands/example/example_sayHello');
+const exampleSubCommand = require('./commands/example/example_subCommand');
 
 (function () {
   'use strict';
@@ -25,6 +26,7 @@ const exampleSayHello = require('./commands/example/example_sayHello');
   exports.commands = [
     log,
     compress,
-    exampleSayHello
+    exampleSayHello,
+    exampleSubCommand
   ];
 }());

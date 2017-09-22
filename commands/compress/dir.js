@@ -13,8 +13,7 @@ const _=require('underscore');
   'use strict';
   
   /**
-   *  Determines the home directory for the current user
-   *  based on the context.
+   *  implementation to compress a directory.
    *  @param context.source (String) - path of the folder/file to zip
    *  @param context.target (String) - path to apply the zip to
    *  @return (Promise(isSuccessful:boolean, context:{ source:string, target:string })) 

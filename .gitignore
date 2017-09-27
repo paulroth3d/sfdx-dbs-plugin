@@ -50,3 +50,4 @@ jspm_packages
 .yarn-integrity
 .vscode
 .vscode/**
+/testRunner.js

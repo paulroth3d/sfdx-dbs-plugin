@@ -3,6 +3,7 @@ const log = require('./commands/log/latest');
 const compress = require('./commands/compress/dir');
 const exampleSayHello = require('./commands/example/example_sayHello');
 const exampleSubCommand = require('./commands/example/example_subCommand');
+const convertToPackage = require('./commands/packageList/packageList_convertToPackage');
 
 (function () {
   'use strict';
@@ -21,12 +22,16 @@ const exampleSubCommand = require('./commands/example/example_subCommand');
   },{
     name:'compress',
     description: 'compress directory'
+  },{
+    name: 'packageList',
+    description: 'Manages and manipulates packageLists'
   }];
   
   exports.commands = [
     log,
     compress,
     exampleSayHello,
-    exampleSubCommand
+    exampleSubCommand,
+    convertToPackage
   ];
 }());

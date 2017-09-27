@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+	<version>40.0</version>
+	<types>
+		<name>Document</name>
+		<members>path/to/mydocument</members>
+	</types>
+	<types>
+		<name>AuraDefinitionBundle</name>
+		<members>LNE_LiveNationAPI_VenueSearch</members>
+	</types>
+	<types>
+		<name>ApexClass</name>
+		<members>LNE_API_VenueSearchResp</members>
+		<members>LNE_API_VenueSearchResp_Test</members>
+		<members>LNE_API_VenueSearch_C</members>
+	</types>
+	<types>
+		<name>Layout</name>
+		<members>Account-Venue Page Layout</members>
+	</types>
+	<types>
+		<name>QuickAction</name>
+		<members>Account.Find_LN_Vendor</members>
+	</types>
+</package>

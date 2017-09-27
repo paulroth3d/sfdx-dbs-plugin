@@ -6,7 +6,7 @@ module.exports = function(grunt){
 	grunt.initConfig({
 		eslint: {
 			commands: {
-				src: ['commands/**/*.js'],
+				src: ['commands/**/*.js', 'lib/**/*.js'],
 				options: {
 					configFile: './.eslintrc.js'
 				}
@@ -41,14 +41,14 @@ module.exports = function(grunt){
 		},
 		watch: {
 			commands: {
-			  files: ['commands/**/*'],
+			  files: ['commands/**/*', 'lib/**/*'],
 			  tasks: ['default'],
 			  options: {
 			    spawn: false
 			  }
 			},
 			test: {
-			  files: ['commands/**/*', 'test/**/*'],
+			  files: ['commands/**/*', 'lib/**/*', 'test/**/*'],
 			  tasks: ['test'],
 			  options: {
 			    spawn: false

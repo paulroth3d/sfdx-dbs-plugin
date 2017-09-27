@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+	<version>40.0</version>
+	<types>
+		<name>ReportType</name>
+		<members>AdPlans</members>
+		<members>Advertisements</members>
+		<members>Events</members>
+		<members>EventsWithDeals</members>
+		<members>Events_Summary</members>
+		<members>Events_and_Ad_Plans</members>
+		<members>Events_and_Event_Date</members>
+		<members>Merchandise</members>
+		<members>Promotion_Scales</members>
+		<members>Ticket_Scales</members>
+		<members>TourCampaignswithAdPlans</members>
+		<members>Tour_Campaign_Ad_Plan</members>
+	</types>
+	<types>
+		<name>Report</name>
+		<members>LNETourReports/Artist_Activity</members>
+		<members>LNETourReports/Artist_Headliner_Guarantees</members>
+		<members>LNETourReports/Artist_Hold</members>
+		<members>LNETourReports/Budget_Variance</members>
+		<members>LNETourReports/ConfirmedDeals</members>
+		<members>LNETourReports/Detailed_Deals</members>
+		<members>LNETourReports/Detailed_Ticket_Scale</members>
+		<members>LNETourReports/Net_Price_Average</members>
+		<members>LNETourReports/Offer_Financials</members>
+		<members>LNETourReports/Offer_Merchandise</members>
+		<members>LNETourReports/Offers</members>
+		<members>LNETourReports/On_Sale_Report</members>
+		<members>LNETourReports/Promotions_by_Ad_Plan</members>
+		<members>LNETourReports/TourCampaignswithAdPlans</members>
+		<members>LNETourReports/Tour_Tracking_Links</members>
+		<members>LNETourReports/Tour_Tracking_Links_Linked_on_Tour</members>
+		<members>LNETourReports/Venue_Oracle_Company_Information</members>
+	</types>
+</package>

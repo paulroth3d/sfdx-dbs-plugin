@@ -40,7 +40,7 @@ function cleanContext(config){
   
   module.exports = {
     topic: 'packageList',
-    command: 'convertToPackage',
+    command: 'convert',
     description: 'Converts a packageList to a package',
     help: 'Converts a packageList to a package',
     flags: [{

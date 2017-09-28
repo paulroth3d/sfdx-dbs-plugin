@@ -5,6 +5,7 @@ const exampleSayHello = require('./commands/example/example_sayHello');
 const exampleSubCommand = require('./commands/example/example_subCommand');
 const convertToPackage = require('./commands/packageList/packageList_convertToPackage');
 const manuallyAddToPackageList = require('./commands/packageList/packageList_addToPackageListManual');
+const clearPackageList = require('./commands/packageList/packageList_clear');
 
 (function () {
   'use strict';
@@ -39,5 +40,6 @@ const manuallyAddToPackageList = require('./commands/packageList/packageList_add
 
     //-- modify
     manuallyAddToPackageList,
+    clearPackageList
   ];
 }());

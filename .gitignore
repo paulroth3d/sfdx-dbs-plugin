@@ -51,3 +51,4 @@ jspm_packages
 .vscode
 .vscode/**
 /testRunner.js
+/commands.zip

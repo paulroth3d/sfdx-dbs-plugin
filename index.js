@@ -4,6 +4,7 @@ const compress = require('./commands/compress/dir');
 const exampleSayHello = require('./commands/example/example_sayHello');
 const exampleSubCommand = require('./commands/example/example_subCommand');
 const convertToPackage = require('./commands/packageList/packageList_convertToPackage');
+const manuallyAddToPackageList = require('./commands/packageList/packageList_addToPackageListManual');
 
 (function () {
   'use strict';
@@ -32,6 +33,11 @@ const convertToPackage = require('./commands/packageList/packageList_convertToPa
     compress,
     exampleSayHello,
     exampleSubCommand,
-    convertToPackage
+
+    //-- convert
+    convertToPackage,
+
+    //-- modify
+    manuallyAddToPackageList,
   ];
 }());

@@ -2,7 +2,7 @@
 
 const _ = require('underscore');
 const Q = require('q');
-const PackageListConverter = require('../../lib/package/packageList/PackageListConverter');
+const PackageListConverter = require('../../lib/package/convert/PackageListConverter');
 const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 
 /**

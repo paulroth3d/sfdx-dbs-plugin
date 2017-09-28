@@ -3,8 +3,7 @@
 const _ = require('underscore');
 const Q = require('q');
 const PackageListConverter = require('../../lib/package/packageList/PackageListConverter');
-
-const DEFAULT_API_VERSION = '40.0';
+const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 
 /**
 * Cleans the request and defaults as needed.
@@ -12,14 +11,14 @@ const DEFAULT_API_VERSION = '40.0';
 * @param {any} config 
 * @returns 
 */
-function cleanPackageListToXml(config){
+function cleanContext(config){
 
   if (config.flags){
     config = config.flags;
   }
 
   config = _.defaults(config, {
-    apiVersion: DEFAULT_API_VERSION
+    apiVersion: MdApiPackage.DEFAULT_API_VERSION
   });
 
   if (!config.source){
@@ -57,11 +56,11 @@ function cleanPackageListToXml(config){
     },{
       name: 'apiVersion',
       char: 'a',
-      description: 'api version for the package, DEF:' + DEFAULT_API_VERSION,
+      description: 'api version for the package, DEF:' + MdApiPackage.DEFAULT_API_VERSION,
       hasValue: true
     }],
 
-    cleanContext: cleanPackageListToXml,
+    cleanContext: cleanContext,
     
     run(context){
       const deferred = Q.defer();
@@ -69,7 +68,7 @@ function cleanPackageListToXml(config){
       //console.log(JSON.stringify(context));
 
       try {
-        context = cleanPackageListToXml(context);
+        context = cleanContext(context);
       } catch(err){
         console.error(JSON.stringify(err, null, 2));
         deferred.reject(err);

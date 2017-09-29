@@ -60,3 +60,49 @@ Run: `sfdx dbs:log:latest` and you can see more about the results:
 	}
 
 **Please note: This is assumed to be at: USER_HOME_DIR/.sfdx/sfdx.log. Please see [here](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_cli_log_messages.htm) for more information**/
+
+# Commands to implement
+
+*	Doc
+	*	Matrix Reports
+		*	Profile / Permission Set by Apex Class
+		*	Profile / Permission Set by VF Page
+		*	Profile / Permission Set by Object
+		*	Profile / Permission Set by Field
+		*	Profile / Permission Set by Layout
+		*	Profile / Permission Set by Record Type
+	*	Code
+	*	Workflows
+	*	Flows
+	*	Objects (as documentation pages)
+	*	Object Workbooks (as excel sheets)
+	*	Profiles
+*	packageList
+	*	make package list all
+	*	create revision list
+	*	add file to package list
+	*	add to package list
+		*	from local file
+		*	searching local files
+		*	searching metadata
+		*	manual
+	*	remove from package list
+		*	manual
+		*	search
+	*	combine package lists
+	*	subtract package lists (ignore lists)
+	*	apply package list to package
+	*	refresh from list
+	*	deploy from list
+*	package
+  *	add package member
+  *	add package type
+  *	add all package types
+  *	add standard objects
+  *	add documentation metadata
+  *	add profile metadata
+  *	add permission set metadata
+  *	remove package member
+  *	apply package to package list
+  *	refresh
+  *	deploy

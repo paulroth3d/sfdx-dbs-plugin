@@ -5,7 +5,7 @@ const Q = require('q');
 const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
 const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 const DxConnection = require('../../lib/dx/DxConnection');
-const MdApiLister = require('../../lib/package/list/MdApiLister');
+const JsForceUtil = require('../../lib/jsforce/JsForceUtil');
 
 /**
 * Cleans the request and defaults as needed.
@@ -67,7 +67,7 @@ function cleanContext(config){
       dxConnection.refreshConnection(context.alias)
         .then(function(jsForce){
           //console.log('connection established');
-          return (MdApiLister.listAllTypes(dxConnection));
+          return (JsForceUtil.listAllTypes(dxConnection));
         })
         .then(function(allTypesResults){
           

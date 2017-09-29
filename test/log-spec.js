@@ -42,7 +42,7 @@ describe("Command/Log", function(){
     
     logModule.getLastLineOfFile(logModule.getHomeLog(exampleContext))
       .then(function(lastLine){
-        console.log("last line"); console.log(JSON.stringify(lastLine));
+        //console.log("last line"); console.log(JSON.stringify(lastLine));
         assert.notEqual(lastLine, null, "there should be a last line");
         done();
       }).catch(function(err,msg){
@@ -55,7 +55,7 @@ describe("Command/Log", function(){
     logModule.getMessageContext(JSON.parse(exampleLine1))
       .then(function(context,lastLineMsg){
         assert.equals(true, true, "found the context");
-        console.log("lastLineMsg");console.log(JSON.stringify(lastLineMsg, null, 2));
+        //console.log("lastLineMsg");console.log(JSON.stringify(lastLineMsg, null, 2));
         done();
       })
       .catch(function(err){
@@ -69,7 +69,7 @@ describe("Command/Log", function(){
     logModule.getMessageContext(JSON.parse(exampleLine2))
       .then(function(context,lastLineMsg){
         assert.equals(true, true, "found the context");
-        console.log("lastLineMsg");console.log(JSON.stringify(lastLineMsg, null, 2));
+        //console.log("lastLineMsg");console.log(JSON.stringify(lastLineMsg, null, 2));
         done();
       })
       .catch(function(err){

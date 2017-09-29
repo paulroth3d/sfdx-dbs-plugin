@@ -1,4 +1,4 @@
-var sayHelloModule = require('../commands/example/example_sayHello');
+var sayHelloModule = require('../../commands/example/example_sayHello');
 var assert = require('assert');
 
 describe('Hello World', function (){

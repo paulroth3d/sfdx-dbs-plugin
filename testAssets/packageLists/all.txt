@@ -29,3 +29,10 @@ reports/LNETourReports/TourCampaignswithAdPlans.report
 reports/LNETourReports/Tour_Tracking_Links.report
 reports/LNETourReports/Tour_Tracking_Links_Linked_on_Tour.report
 reports/LNETourReports/Venue_Oracle_Company_Information.report
+documents/path/to/mydocument.txt
+aura/LNE_LiveNationAPI_VenueSearch.aura
+classes/LNE_API_VenueSearchResp.cls
+classes/LNE_API_VenueSearchResp_Test.cls
+classes/LNE_API_VenueSearch_C.cls
+layouts/Account-Venue Page Layout.layout
+quickActions/Account.Find_LN_Vendor.quickAction

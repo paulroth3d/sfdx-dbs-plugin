@@ -3,7 +3,7 @@
 const _ = require('underscore');
 const Q = require('q');
 const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
-const MdApiPackage = require('../../lib/mdapi/MdApiPackage.js');
+const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 
 /**
 * Cleans the request and defaults as needed.
@@ -82,6 +82,7 @@ function cleanContext(config){
       PackageListAlgebra.addMemberManual(context.source, context.type, context.member)
         .then(function(targetPath){
           console.log('Package list updated: ' + targetPath);
+          deferred.resolve(targetPath);
         })
         .catch(function(errMsg,errObj){
           if (errMsg){
@@ -90,6 +91,7 @@ function cleanContext(config){
           if (errObj){
             console.error(JSON.stringify(errObj, null, 2));
           }
+          deferred.reject(errMsg, errObj);
         });
       
       return (deferred.promise);

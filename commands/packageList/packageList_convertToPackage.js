@@ -3,7 +3,7 @@
 const _ = require('underscore');
 const Q = require('q');
 const PackageListConverter = require('../../lib/package/convert/PackageListConverter');
-const MdApiPackage = require('../../lib/mdapi/MdApiPackage.js');
+const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 
 /**
 * Cleans the request and defaults as needed.
@@ -78,6 +78,7 @@ function cleanContext(config){
       PackageListConverter.convertPackageListToXml(context.source, context.target, context.apiVersion)
         .then(function(results){
           console.log('completed writing the package:' + context.target);
+          deferred.resolve(context.target);
         })
         .catch(function(errMsg,errObj){
           if (errMsg){
@@ -86,6 +87,7 @@ function cleanContext(config){
           if (errObj){
             console.error(JSON.stringify(errObj, null, 2));
           }
+          deferred.reject(errMsg, errObj);
         });
       
       return (deferred.promise);

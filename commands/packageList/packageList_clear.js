@@ -3,7 +3,7 @@
 const _ = require('underscore');
 const Q = require('q');
 const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
-const MdApiPackage = require('../../lib/mdapi/MdApiPackage');
+const MdApiPackage = require('../../lib/package/MdApiPackage');
 
 /**
 * Cleans the request and defaults as needed.
@@ -65,14 +65,16 @@ function cleanContext(config){
       PackageListAlgebra.clearPackageList(context.target)
         .then(function(results){
           console.log('completed writing the package:' + context.target);
+          deferred.resolve(results);
         })
-        .catch(function(errMsg,errObj){
+        .catch(function(errMsg, errObj){
           if (errMsg){
             console.error(errMsg);
           }
           if (errObj){
             console.error(JSON.stringify(errObj, null, 2));
           }
+          deferred.reject(errMsg, errObj);
         });
       
       return (deferred.promise);

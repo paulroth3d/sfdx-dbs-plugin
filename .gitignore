@@ -52,3 +52,4 @@ jspm_packages
 .vscode/**
 /testRunner.js
 /commands.zip
+/testAssets/exampleTrees

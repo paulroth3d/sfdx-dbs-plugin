@@ -3,7 +3,7 @@
 const _ = require('underscore');
 const Q = require('q');
 const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
-const MdApiPackage = require('../../lib/package/MdApiPackage.js');
+const MdApiPackage = require('../../lib/mdapi/MdApiPackage.js');
 const DxConnection = require('../../lib/dx/DxConnection');
 const JsForceUtil = require('../../lib/jsforce/JsForceUtil');
 

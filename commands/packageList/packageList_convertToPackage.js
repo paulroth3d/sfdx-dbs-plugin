@@ -3,7 +3,7 @@
 const _ = require('underscore');
 const Q = require('q');
 const PackageListConverter = require('../../lib/package/convert/PackageListConverter');
-const MdApiPackage = require('../../lib/package/MdApiPackage.js');
+const MdApiPackage = require('../../lib/mdapi/MdApiPackage.js');
 
 /**
 * Cleans the request and defaults as needed.

@@ -3,7 +3,7 @@
 const _ = require('underscore');
 const Q = require('q');
 const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
-const MdApiPackage = require('../../lib/package/MdApiPackage');
+const MdApiPackage = require('../../lib/mdapi/MdApiPackage');
 
 /**
 * Cleans the request and defaults as needed.

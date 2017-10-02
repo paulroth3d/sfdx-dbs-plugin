@@ -67,35 +67,15 @@ function cleanContext(config){
       dxConnection.refreshConnection(context.alias)
         .then(function(jsForce){
           //console.log('connection established');
-          return (JsForceUtil.listAllTypes(dxConnection));
+          return (JsForceUtil.getAllTypes(dxConnection));
         })
         .then(function(allTypesResults){
-          
-          let metadataTypes = allTypesResults.metadataObjects;
-          let metadataType;
-
-          let metadataNames = [];
-          let metadataName;
-
-          for (var i = 0; i < metadataTypes.length; i++){
-            metadataType = metadataTypes[i];
-            metadataName = metadataType.xmlName;
-            if (metadataType.inFolder){
-              metadataName += '*';
-            }
-            metadataNames.push(metadataName);
+          return (JsForceUtil.printAllTypeNames(allTypesResults));
+        })
+        .then(function(allTypeNames){
+          for (var i = 0; i < allTypeNames; i++){
+            console.log(allTypeNames[i]);
           }
-
-          //-- sort
-          const sortedNames = _.sortBy(metadataNames, function(metadataName){
-            return(metadataName);
-          });
-
-          for (var j = 0; j < sortedNames.length; j++){
-            console.log(sortedNames[j]);
-          }
-
-          deferred.resolve(metadataTypes);
         })
         .catch(function(errMsg, errObj){
           if (errMsg){

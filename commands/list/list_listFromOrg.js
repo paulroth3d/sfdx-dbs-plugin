@@ -2,21 +2,14 @@
 
 const _ = require('underscore');
 const Q = require('q');
-const PROMPT = require('prompt');
 
 const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
 const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 const DxConnection = require('../../lib/dx/DxConnection');
 const JsForceUtil = require('../../lib/jsforce/JsForceUtil');
+const MdApiPrompter = require('../../lib/prompt/MdApiPrompter');
+const MdApiPrinter = require('../../lib/package/MdApiPrinter');
 
-const ALL_TYPES_PROMPT_SCHEMA = {
-  properties: {
-    type: {
-      message: 'Which metadata type would you like to list files for?',
-      required: true
-    }
-  }
-};
 
 /**
 * Cleans the request and defaults as needed.
@@ -37,52 +30,7 @@ function cleanContext(config){
     throw('--alias is required');
   }
 
-  if (!config.type){
-    console.log('--type was not provided. To bypass the following list of types/prompt, supply the --type parameter.\n');
-    console.log('... determining list of possible Apex Types');
-  }
-
   return (config);
-}
-
-/**
- * Determines the Metadata Type to investigate
- * 
- * @param {DxConnection} dxConnection 
- * @param {any} config 
- */
-function getMetadataType(dxConnection, config){
-  const deferred = Q.defer();
-
-  if (config.type){
-    deferred.resolve(config.type);
-  } else {
-    //-- list all types and then ask about which one we want
-    JsForceUtil.getAllTypes(dxConnection)
-      .then(function(allTypesResults){
-        return (JsForceUtil.printAllTypeNames(allTypesResults));
-      })
-      .then(function(allTypeEntries){
-        for (var i = 0; i < allTypeEntries; i++){
-          console.log(allTypeEntries[i]);
-        }
-
-        console.log('\n\n\n');
-
-        PROMPT.get(ALL_TYPES_PROMPT_SCHEMA, function(err, result){
-          if (err){
-            deferred.reject('error occurred while asking for Metadata Types');
-          } else {
-            deferred.resolve(result.type);
-          }
-        });
-      })
-      .catch(function(errStr, errObj){
-        deferred.reject(errStr);
-      });
-  }
-
-  return (deferred.promise);
 }
 
 /**
@@ -119,7 +67,8 @@ function getMetadataType(dxConnection, config){
     run(context){
       const deferred = Q.defer();
 
-      //console.log(JSON.stringify(context));
+      //-- uncomment to refresh context for integration tests
+      //console.log(JSON.stringify(context)); return deferred.promise;
 
       try {
         context = cleanContext(context);
@@ -132,7 +81,7 @@ function getMetadataType(dxConnection, config){
       const dxConnection = new DxConnection();
       dxConnection.refreshConnection(context.alias)
         .then(function(jsForce){
-          return (getMetadataType(dxConnection, context));
+          return (MdApiPrompter.demandType(dxConnection, context.type, '-t|--type [[typeName]]'));
         })
         .then(function(metadataType){
           return (JsForceUtil.getTypeMembers(dxConnection, metadataType, context.folder));
@@ -141,13 +90,7 @@ function getMetadataType(dxConnection, config){
           return (JsForceUtil.printMemberNames(typeMembers));
         })
         .then(function(memberNames){
-          if (!memberNames || memberNames.length < 1){
-            console.log('--No Members found--');
-          } else {
-            for (var j = 0; j < memberNames.length; j++){
-              console.log(memberNames[j]);
-            }
-          }
+          MdApiPrinter.sortAndPrintList(memberNames, '-- no members found --');
           deferred.resolve(memberNames);
         })
         .catch(function(errMsg, errObj){

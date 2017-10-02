@@ -6,6 +6,7 @@ const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra'
 const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 const DxConnection = require('../../lib/dx/DxConnection');
 const JsForceUtil = require('../../lib/jsforce/JsForceUtil');
+const MdApiPrinter = require('../../lib/package/MdApiPrinter');
 
 /**
 * Cleans the request and defaults as needed.
@@ -73,9 +74,7 @@ function cleanContext(config){
           return (JsForceUtil.printAllTypeNames(allTypesResults));
         })
         .then(function(allTypeNames){
-          for (var i = 0; i < allTypeNames; i++){
-            console.log(allTypeNames[i]);
-          }
+          MdApiPrinter.sortAndPrintList(allTypeNames, '-- no types found --');
           deferred.resolve(allTypeNames);
         })
         .catch(function(errMsg, errObj){

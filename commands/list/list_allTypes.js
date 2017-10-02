@@ -76,6 +76,7 @@ function cleanContext(config){
           for (var i = 0; i < allTypeNames; i++){
             console.log(allTypeNames[i]);
           }
+          deferred.resolve(allTypeNames);
         })
         .catch(function(errMsg, errObj){
           if (errMsg){

@@ -77,7 +77,9 @@ Run: `sfdx dbs:log:latest` and you can see more about the results:
 	*	Objects (as documentation pages)
 	*	Object Workbooks (as excel sheets)
 	*	Profiles
-*	packageList
+*  refreshes
+	*	refresh permissions for version control
+* 	packageList
 	*	make package list all
 	*	create revision list
 	*	add file to package list

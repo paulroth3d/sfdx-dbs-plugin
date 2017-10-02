@@ -8,6 +8,9 @@ const JsForceUtil = require('../../lib/jsforce/JsForceUtil');
 const MdApiPackageUtil = require('../../lib/package/MdApiPackageUtil');
 const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
 const PackageListConverter = require('../../lib/package/convert/PackageListConverter');
+const MdApiMemberNameFilter = require('../../lib/package/filter/MdApiMemberNameFilter');
+const PromptConfirmContinue = require('../../lib/prompt/PromptConfirmContinue');
+const AbortedPromise = require('../../lib/validate/AbortedPromise');
 
 /**
 * Cleans the request and defaults as needed.
@@ -66,6 +69,15 @@ function cleanContext(config){
       char: 'y',
       description: 'The Metadata API type of the member',
       hasValue: true
+    },{
+      name: 'filter',
+      char: 'f',
+      description: 'Only include items that match this regex filter',
+      hasValue: true
+    },{
+      name: 'confirmationPrompt',
+      char: 'c',
+      description: 'Confirm changes prior to making any commits'
     }],
 
     cleanContext: cleanContext,
@@ -94,13 +106,39 @@ function cleanContext(config){
           return (MdApiPackageUtil.convertMetadataApiMembers(metadata));
         })
         .then(function(mdApiMembers){
+          let filter = new MdApiMemberNameFilter(context.filter);
+          let results = filter.apply(mdApiMembers);
+          return (results);
+        })
+        .then(function(mdApiMembers){
+          //-- confirm before doing anything
+
+          if (!mdApiMembers || mdApiMembers.length < 1){
+            return AbortedPromise.abort('No members were found matching filter criteria');
+          }
+
+          let confirmationPrompt = new PromptConfirmContinue(context.confirmationPrompt);
+
+          if (!confirmationPrompt.shouldBypassConfirmations){
+            console.log('We found the following for type [' + context.type + ']');
+            if (context.filter){
+              console.log('for pattern[' + context.filter + ']');
+            }
+            for (var i = 0; i < mdApiMembers.length; i++){
+              console.log('\t' + mdApiMembers[i].getMemberName());
+            }
+          }
+          
+          return (confirmationPrompt.shouldContinue(mdApiMembers));
+        })
+        .then(function(mdApiMembers){
           return (PackageListAlgebra.addPackageMembers(targetPath,mdApiMembers));
         })
         .then(function(targetPath){
           return FS.readFileSync(targetPath, {encoding: 'UTF-8'});
         })
         .then(function(contents){
-          console.log('Updated Package List: ' + targetPath + '\n\n\n');
+          console.log('Updated Package List: ' + targetPath + '\n[contents below]\n\n\n');
           console.log(contents);
           deferred.resolve(targetPath);
         })

@@ -100,7 +100,7 @@ function cleanContext(config){
       const dxConnection = new DxConnection();
       dxConnection.refreshConnection(context.alias)
         .then(function(jsForce){
-          return JsForceUtil.listTypeMembers(dxConnection, context.type, '');
+          return JsForceUtil.getTypeMembers(dxConnection, context.type, '');
         })
         .then(function(metadata){
           return (MdApiPackageUtil.convertMetadataApiMembers(metadata));

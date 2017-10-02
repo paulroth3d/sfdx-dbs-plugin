@@ -7,6 +7,7 @@ const convertToPackage = require('./commands/packageList/packageList_convertToPa
 const manuallyAddToPackageList = require('./commands/packageList/packageList_addManual');
 const clearPackageList = require('./commands/packageList/packageList_clear');
 const listAllTypes = require('./commands/list/list_allTypes');
+const listFromOrg = require('./commands/list/list_listFromOrg');
 const addTypeFromOrgCommand = require('./commands/packageList/packageList_addTypeFromOrg');
 
 (function () {
@@ -49,6 +50,7 @@ const addTypeFromOrgCommand = require('./commands/packageList/packageList_addTyp
     clearPackageList,
 
     //-- list
-    listAllTypes
+    listAllTypes,
+    listFromOrg
   ];
 }());

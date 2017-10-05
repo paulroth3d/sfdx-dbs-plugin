@@ -51,9 +51,9 @@ function cleanContext(config){
   
   module.exports = {
     topic: 'packageList',
-    command: 'addTypeFromOrg',
-    description: 'Adds all items of a given type from the Salesforce Org to a PackageList',
-    help: 'Adds all items of a given type from the Salesforce Org to a PackageList',
+    command: 'addFromOrg',
+    description: 'Adds items of a given type (and filter) from the Salesforce Org to a PackageList',
+    help: 'Adds items of a given type (and filter) from the Salesforce Org to a PackageList',
     flags: [{
       name: 'target',
       char: 't',
@@ -75,7 +75,7 @@ function cleanContext(config){
       description: 'Only include items that match this regex filter',
       hasValue: true
     },{
-      name: 'confirmationPrompt',
+      name: 'bypassConfirmation',
       char: 'c',
       description: 'Confirm changes prior to making any commits'
     }],
@@ -107,8 +107,18 @@ function cleanContext(config){
         })
         .then(function(mdApiMembers){
           let filter = new MdApiMemberNameFilter(context.filter);
-          let results = filter.apply(mdApiMembers);
-          return (results);
+          let filterResults = filter.apply(mdApiMembers);
+
+          //-- sort
+          const sortedResults = _.sortBy(filterResults, function(mdApiMember){
+            if(mdApiMember){
+              return(mdApiMember.getMemberName());
+            } else {
+              return(mdApiMember);
+            }
+          });
+
+          return (sortedResults);
         })
         .then(function(mdApiMembers){
           //-- confirm before doing anything
@@ -117,7 +127,7 @@ function cleanContext(config){
             return AbortedPromise.abort('No members were found matching filter criteria');
           }
 
-          let confirmationPrompt = new PromptConfirmContinue(context.confirmationPrompt);
+          let confirmationPrompt = new PromptConfirmContinue(context.bypassConfirmation);
 
           if (!confirmationPrompt.shouldBypassConfirmations){
             console.log('We found the following for type [' + context.type + ']');
@@ -132,7 +142,7 @@ function cleanContext(config){
           return (confirmationPrompt.shouldContinue(mdApiMembers));
         })
         .then(function(mdApiMembers){
-          return (PackageListAlgebra.addPackageMembers(targetPath,mdApiMembers));
+          return (PackageListAlgebra.addPackageMembers(targetPath, mdApiMembers));
         })
         .then(function(targetPath){
           return FS.readFileSync(targetPath, {encoding: 'UTF-8'});

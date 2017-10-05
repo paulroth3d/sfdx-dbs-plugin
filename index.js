@@ -8,7 +8,7 @@ const manuallyAddToPackageList = require('./commands/packageList/packageList_add
 const clearPackageList = require('./commands/packageList/packageList_clear');
 const listAllTypes = require('./commands/list/list_allTypes');
 const listFromOrg = require('./commands/list/list_listFromOrg');
-const addTypeFromOrgCommand = require('./commands/packageList/packageList_addTypeFromOrg');
+const addFromOrgCommand = require('./commands/packageList/packageList_addFromOrg');
 
 (function () {
   'use strict';
@@ -46,7 +46,7 @@ const addTypeFromOrgCommand = require('./commands/packageList/packageList_addTyp
 
     //-- modify
     manuallyAddToPackageList,
-    addTypeFromOrgCommand,
+    addFromOrgCommand,
     clearPackageList,
 
     //-- list

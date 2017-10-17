@@ -9,6 +9,7 @@ const clearPackageList = require('./commands/packageList/packageList_clear');
 const listAllTypes = require('./commands/list/list_allTypes');
 const listFromOrg = require('./commands/list/list_listFromOrg');
 const addFromOrgCommand = require('./commands/packageList/packageList_addFromOrg');
+const packageBlank = require('./commands/package/package_blank');
 
 (function () {
   'use strict';
@@ -31,6 +32,9 @@ const addFromOrgCommand = require('./commands/packageList/packageList_addFromOrg
     name:'compress',
     description: 'compress directory'
   },{
+    name: 'package',
+    description: 'Manages and manipulates package files'
+  },{
     name: 'packageList',
     description: 'Manages and manipulates packageLists'
   }];
@@ -48,6 +52,9 @@ const addFromOrgCommand = require('./commands/packageList/packageList_addFromOrg
     manuallyAddToPackageList,
     addFromOrgCommand,
     clearPackageList,
+
+    //-- package
+    packageBlank,
 
     //-- list
     listAllTypes,

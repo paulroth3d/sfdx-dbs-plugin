@@ -13,7 +13,7 @@ const JsForceUtil = require('../../lib/jsforce/JsForceUtil');
 * Cleans the request and defaults as needed.
 * 
 * @param {any} config 
-* @returns 
+* @returns {any}
 */
 function cleanContext(config){
 
@@ -58,6 +58,10 @@ function cleanContext(config){
 
     cleanContext: cleanContext,
     
+    /**
+     * Actual execution of the command
+     * @param {SalesforceDXContext} context
+     */
     run(context){
       const deferred = Q.defer();
 
@@ -84,7 +88,7 @@ function cleanContext(config){
           deferred.resolve(true);
         })
         .catch(function(err){
-          deferred.reject('Error occurred while trying to read:' + sourcePath, err);
+          deferred.reject('Error occurred while trying to read:' + targetPath);
         });
       
       return (deferred.promise);

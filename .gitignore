@@ -55,3 +55,4 @@ jspm_packages
 /testAssets/exampleTrees
 testAssets/packageLists/*.xml
 /testAssets/src*
+/testAssets/packages/blank.xml

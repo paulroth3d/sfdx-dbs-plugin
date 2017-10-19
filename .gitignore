@@ -56,3 +56,4 @@ jspm_packages
 testAssets/packageLists/*.xml
 /testAssets/src*
 /testAssets/packages/blank.xml
+/testAssets/packageLists/test.txt

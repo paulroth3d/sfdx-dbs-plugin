@@ -1,4 +1,4 @@
-var subCommandModule = require('../commands/example/example_subCommand');
+var subCommandModule = require('../../commands/example/example_subCommand');
 var assert = require('assert');
 
 describe('Sub Command runs', function (){

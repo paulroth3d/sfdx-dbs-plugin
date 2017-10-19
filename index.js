@@ -1,9 +1,17 @@
 /*jshint esversion: 6*/
 const log = require('./commands/log/latest');
-const compress = require('./commands/compress/dir');
+const zipFile = require('./commands/zip/zip_compress_dir');
+const unzipFile = require('./commands/zip/zip_uncompress');
 const exampleSayHello = require('./commands/example/example_sayHello');
 const exampleSubCommand = require('./commands/example/example_subCommand');
 const convertToPackage = require('./commands/packageList/packageList_convertToPackage');
+const manuallyAddToPackageList = require('./commands/packageList/packageList_addManual');
+const clearPackageList = require('./commands/packageList/packageList_clear');
+const listAllTypes = require('./commands/list/list_allTypes');
+const listFromOrg = require('./commands/list/list_listFromOrg');
+const addFromOrgCommand = require('./commands/packageList/packageList_addFromOrg');
+const packageBlank = require('./commands/package/package_blank');
+const packageConvertToPackageList = require('./commands/package/package_convertToPackageList');
 
 (function () {
   'use strict';
@@ -17,11 +25,17 @@ const convertToPackage = require('./commands/packageList/packageList_convertToPa
     name:'example',
     description: 'example namespace',
   },{
+    name:'list',
+    description: 'Lists metadata avaialable within an org',
+  },{
     name:'log',
     description: 'Reports on the latest cli JSON log',
   },{
-    name:'compress',
-    description: 'compress directory'
+    name:'zip',
+    description: 'zip functionality (compress/uncompress)'
+  },{
+    name: 'package',
+    description: 'Manages and manipulates package files'
   },{
     name: 'packageList',
     description: 'Manages and manipulates packageLists'
@@ -29,9 +43,27 @@ const convertToPackage = require('./commands/packageList/packageList_convertToPa
   
   exports.commands = [
     log,
-    compress,
     exampleSayHello,
     exampleSubCommand,
-    convertToPackage
+
+    //-- zip
+    zipFile,
+    unzipFile,
+
+    //-- convert
+    convertToPackage,
+
+    //-- modify
+    manuallyAddToPackageList,
+    addFromOrgCommand,
+    clearPackageList,
+
+    //-- package
+    packageBlank,
+    packageConvertToPackageList,
+
+    //-- list
+    listAllTypes,
+    listFromOrg
   ];
 }());

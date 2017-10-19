@@ -27,7 +27,8 @@ module.exports = function(grunt){
 		      noFail: false
 		    },
 		    src: [
-		      'test/**/*.js'
+          'test/**/*.js'
+          //'test/**/AbortedPromise-spec.js'
 		    ]
 		  }
 		},

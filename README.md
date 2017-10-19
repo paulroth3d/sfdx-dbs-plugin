@@ -60,3 +60,88 @@ Run: `sfdx dbs:log:latest` and you can see more about the results:
 	}
 
 **Please note: This is assumed to be at: USER_HOME_DIR/.sfdx/sfdx.log. Please see [here](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_cli_log_messages.htm) for more information**/
+
+## Salesforce Retrieve and Deploy Steps
+
+### Uncompress a folder
+
+This is quite helpful when unpacking a metadata retrieve from Salesforce DX.
+
+	sfdx force:mdapi:retrieve \
+		-k path/to/package.xml \
+		-r target/path \
+		-u userAlias
+		
+	# results in target/path/unpackaged.zip
+	
+An example to uncompress the folder:
+
+	sfdx dbs:zip:uncompress \
+		--source target/path/unpackaged.zip \
+		--replace
+	
+	# unzips the files to: ./target/path
+	# and removes target/path/unpackaged.zip
+	# (because -r / --remove was sent)
+
+It takes three arguments:
+
+* --source / -s : path to the zip file to be unzipped
+* --target / -t : path to the folder to unzip to (existing or not) <br /> ***(defaults to the same folder as source)***
+* --remove / -r : whether to remove the zip file on complete
+
+### Zip Compress a folder (for deployment)
+
+To zip that resulting folder, use the command:
+
+	sfdx dbs:zip:compress:dir \
+		--source target/path
+	
+Takes three arguments:
+
+* --source / -s : path of the directory to compress
+* --target / -t : [[ optional ]] path for resulting zip <br /> ***(defaults to sourcePath + '.zip')***
+
+Once the zip file is completed, it can be deployed using standard Salesforce DX
+
+	sfdx force:mdapi:deploy \
+		-f target/path.zip \
+		-u userAlias \
+		-w 100
+
+## Listing Salesforce Metadata
+
+Sometimes it is helpful to know what types of metadata is available.
+
+With this command, you can determine the possible Apex Types, or list metadata under those types (even using a filter)
+
+	sfdx dbs:list:fromOrg -a userAlias
+	
+	# displys the lists of all MetadataTypes available for that org
+	# and upon entering the prompt
+	# then lists all metadata under that MetadataType
+	
+It accepts the following arguments:
+
+*  -a, --alias ALIAS    Connection alias
+*  -f, --folder FOLDER  Folder within the type to search <br /> **(only needed for Folder/* types)**
+*  -y, --type TYPE      Metadata API Type (do not specify to list all)
+
+Note that this becomes possible to list all Documents, for example, by running this command first:
+
+	sfdx dbs:list:fromOrg -a userAlias \
+		--type DocumentFolder
+	
+	# provides a list of Document folders within the org
+	# choosing one, say 'public-documents'
+	# we can get a list of all documents
+	# under the 'public-documents' folder
+	
+	sfdx dbs:list:fromOrg -a userAlias \
+		--type Document \
+		--folder public-documents
+		
+	# list of all documents under public-documents
+	
+
+

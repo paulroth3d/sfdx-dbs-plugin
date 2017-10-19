@@ -2,7 +2,7 @@
 /*jshint esversion: 6, quotmark: single */
 
 let _ = require('underscore');
-let compressModule = require('../commands/compress/dir');
+let compressModule = require('../commands/zip/zip_compress_dir');
 let assert = require('assert');
 let fs = require('fs-extra');
 

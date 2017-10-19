@@ -61,50 +61,44 @@ Run: `sfdx dbs:log:latest` and you can see more about the results:
 
 **Please note: This is assumed to be at: USER_HOME_DIR/.sfdx/sfdx.log. Please see [here](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_cli_log_messages.htm) for more information**/
 
-# Commands to implement
+## Salesforce Retrieve and Deploy Steps
 
-*	Doc
-	*	Matrix Reports
-		*	Profile / Permission Set by Apex Class
-		*	Profile / Permission Set by VF Page
-		*	Profile / Permission Set by Object
-		*	Profile / Permission Set by Field
-		*	Profile / Permission Set by Layout
-		*	Profile / Permission Set by Record Type
-	*	Code
-	*	Workflows
-	*	Flows
-	*	Objects (as documentation pages)
-	*	Object Workbooks (as excel sheets)
-	*	Profiles
-*  refreshes
-	*	refresh permissions for version control
-* 	packageList
-	*	make package list all
-	*	create revision list
-	*	add file to package list
-	*	add to package list
-		*	from local file
-		*	searching local files
-		*	searching metadata
-		*	manual
-	*	remove from package list
-		*	manual
-		*	search
-	*	combine package lists
-	*	subtract package lists (ignore lists)
-	*	apply package list to package
-	*	refresh from list
-	*	deploy from list
-*	package
-  *	add package member
-  *	add package type
-  *	add all package types
-  *	add standard objects
-  *	add documentation metadata
-  *	add profile metadata
-  *	add permission set metadata
-  *	remove package member
-  *	apply package to package list
-  *	refresh
-  *	deploy
+### Uncompress a folder
+
+This is quite helpful when unpacking a metadata retrieve from Salesforce DX.
+
+	sfdx force:mdapi:retrieve \
+		-k path/to/package.xml \
+		-r target/path \
+		-u userAlias
+		
+	# results in target/path/unpackaged.zip
+	
+An example to uncompress the folder:
+
+	sfdx dbs:zip:uncompress \
+		-s target/path/unpackaged.zip \
+		-r
+	
+	# unzips the files to: ./target/path
+	# and removes target/path/unpackaged.zip
+	# (because -r / --remove was sent)
+
+It takes three arguments:
+
+* --sourceFile / -s : path to the zip file to be unzipped
+* --targetDir / -t : path to the folder to unzip to (existing or not) <br /> ***(defaults to the same folder as sourceFile)***
+* --remove / -r : whether to remove the zip file on complete
+
+### Zip Compress a folder (for deployment)
+
+To zip that resulting folder, use the command:
+
+	sfdx dbs:zip:compress:dir \
+		-s target/path
+	
+Takes three arguments:
+
+* --source / -s : path of the directory to compress
+* --target / -t : [[ optional ]] path for resulting zip <br /> ***(defaults to sourcePath + '.zip')***
+

@@ -1,6 +1,7 @@
 /*jshint esversion: 6*/
 const log = require('./commands/log/latest');
-const compress = require('./commands/compress/dir');
+const zipFile = require('./commands/zip/zip_compress_dir');
+const unzipFile = require('./commands/zip/zip_uncompress');
 const exampleSayHello = require('./commands/example/example_sayHello');
 const exampleSubCommand = require('./commands/example/example_subCommand');
 const convertToPackage = require('./commands/packageList/packageList_convertToPackage');
@@ -30,8 +31,8 @@ const packageConvertToPackageList = require('./commands/package/package_convertT
     name:'log',
     description: 'Reports on the latest cli JSON log',
   },{
-    name:'compress',
-    description: 'compress directory'
+    name:'zip',
+    description: 'zip functionality (compress/uncompress)'
   },{
     name: 'package',
     description: 'Manages and manipulates package files'
@@ -42,9 +43,12 @@ const packageConvertToPackageList = require('./commands/package/package_convertT
   
   exports.commands = [
     log,
-    compress,
     exampleSayHello,
     exampleSubCommand,
+
+    //-- zip
+    zipFile,
+    unzipFile,
 
     //-- convert
     convertToPackage,

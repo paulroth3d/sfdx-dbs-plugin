@@ -39,7 +39,6 @@ const _=require('underscore');
 
     fs.pathExists(context.source)
       .then( function(exists){
-        console.log('context.source:' + context.source);
         if (exists){
           try {
             compress.zip.compressDir(context.source, context.target)
@@ -65,8 +64,8 @@ const _=require('underscore');
   }
   
   module.exports = {
-    topic: 'compress',
-    command: 'dir',
+    topic: 'zip',
+    command: 'compress:dir',
     description: 'Compresses a directory using zip format',
     help: '',
     flags: [{

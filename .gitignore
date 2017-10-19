@@ -54,6 +54,7 @@ jspm_packages
 /commands.zip
 /testAssets/exampleTrees
 testAssets/packageLists/*.xml
+/testAssets/*
 /testAssets/src*
 /testAssets/packages/blank.xml
 /testAssets/packageLists/test.txt

@@ -79,7 +79,7 @@ function cleanContext(config){
       const blankPackage = new MdApiPackage(context.apiVersion);
       const targetPath = context.targetPath;
 
-      PackageConverter.convertPackageJsonToPackage(blankPackage)
+      PackageConverter.convertMdApiPackageToPackage(blankPackage)
         .then(function(xmlWriter){
           return (PackageWriter.writeXmlToFile(xmlWriter, targetPath));
         })

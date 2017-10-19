@@ -65,7 +65,8 @@ function cleanContext(config){
     run(context){
       const deferred = Q.defer();
 
-      //console.log(JSON.stringify(context));
+      //-- uncomment to refresh context for integration tests
+      //console.log(JSON.stringify(context)); return deferred.promise;
 
       try {
         context = cleanContext(context);

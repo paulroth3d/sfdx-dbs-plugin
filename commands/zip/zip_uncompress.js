@@ -26,13 +26,13 @@ function cleanContext(config){
   config = _.defaults(config, {
   });
 
-  if (!config.sourceFile){
-    throw('--sourceFile is required');
+  if (!config.source){
+    throw('--source is required');
   }
 
-  if (!config.targetDir){
-    const pathResults = PATH.parse(config.sourceFile);
-    config.targetDir = pathResults.dir;
+  if (!config.target){
+    const pathResults = PATH.parse(config.source);
+    config.target = pathResults.dir;
   }
 
   return (config);
@@ -94,12 +94,12 @@ function unzipFile(sourceFile, targetDir){
     description: 'Uncompresses a zip file',
     help: 'Uncompresses a zip file',
     flags: [{
-      name: 'sourceFile',
+      name: 'source',
       char: 's',
       description: 'source zip file',
       hasValue: true
     },{
-      name: 'targetDir',
+      name: 'target',
       char: 't',
       description: 'Directory to uncompress the results in (default to same as zip)',
       hasValue: true
@@ -129,17 +129,17 @@ function unzipFile(sourceFile, targetDir){
         return (deferred.promise);
       }
 
-      unzipFile(context.sourceFile, context.targetDir)
+      unzipFile(context.source, context.target)
         .then(function(compressResolved){
           if (context.removeSource){
-            return FS.remove(context.sourceFile);
+            return FS.remove(context.source);
           } else {
             return false;
           }
         })
         .then(function(wasSourceRemoved){
-          console.log('successfully uncompressed:' + context.sourceFile + '\n' +
-            'to:' + context.targetDir );
+          console.log('successfully uncompressed:' + context.source + '\n' +
+            'to:' + context.target );
         })
         .catch(function(errObj){
           if (_.isString(errObj)){

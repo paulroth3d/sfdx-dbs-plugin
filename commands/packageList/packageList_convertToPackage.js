@@ -55,7 +55,7 @@ function cleanContext(config){
       hasValue: true
     },{
       name: 'apiVersion',
-      char: 'a',
+      char: 'v',
       description: 'api version for the package, DEF:' + MdApiPackage.DEFAULT_API_VERSION,
       hasValue: true
     }],

@@ -143,5 +143,81 @@ Note that this becomes possible to list all Documents, for example, by running t
 		
 	# list of all documents under public-documents
 	
+## Chunking Package Types
+
+When documenting your Salesforce Org, it is possible to retrieve some sets of metadata using the `*` member within your package.
+
+Others you need to write explicitly.
+
+**Please note: The MetadataTypes that must be asked for explicitly can be found by running the command `sfdx dbs:list:allTypes -a userAlias`. All types suffixed (ending with) a star `*` are Folder types that must be explicitly asked for by name**
+
+At present these are:
+
+* Dashboard
+* Document
+* EmailTemplate
+* Report
+
+This can be a challenge to determine exactly which records are held.
+
+Furthermore, the Metadata API utilizes [Governor Limits](https://developer.salesforce.com/docs/atlas.en-us.salesforce_app_limits_cheatsheet.meta/salesforce_app_limits_cheatsheet/salesforce_app_limits_platform_metadata.htm) both for the number of files (currently 10,000) and the total amount of data retrieved (currently 39MB)
 
 
+We created the following command to generate packages for you for any Metadata type that utilizes folders.
+
+For example, to retrieve all Documents for a given org:
+
+	sfdx dbs:package:chunk \
+		--folderType DocumentFolder \
+		--memberType Document \
+		--target path/for/packages \
+		--userAlias myUserAlias
+	
+	# for my org, because there are 15,678 documents
+	# this generates the following files:
+	# path/for/packages/package_0001.xml (the first 10,000 members)
+	# path/for/packages/package_0002.xml (the remaining 5,678 members)
+
+This will generate packages for all Document members (from all `DocumentFolder`s within the org) with at most 10,000 members in each package.
+
+The command supports the following flags:
+
+*  -f, --folderType FOLDERTYPE  Metadata API type for folders <br />
+(ex: DocumentFolder, EmailFolder, etc)
+*  -m, --memberType MEMBERTYPE  Metadata API type for the documents <br /> (within those folders)
+*  -t, --target TARGET          Target folder to place the resulting files
+* -u, --userAlias USERALIAS    Connection Alias to pull against
+
+*  -a, --apiVersion APIVERSION  API version to use
+*  -s, --chunkSize CHUNKSIZE    Max number of documents per file
+* -p, --prefix PREFIX          Prefix for packages generated
+
+Although this list may grow, this is the list of all Metadata types (and their folder type equivalents currently known.
+
+<table>
+	<tr><th>MemberMetadataType</th><th>FolderMetadataType</th></tr>
+	<tr><td>Dashboard</td><td>DashboardFolder</td></tr>
+	<tr><td>Document</td><td>DocumentFolder</td></tr>
+	<tr><td>EmailTemplate</td><td>EmailFolder</td></tr>
+	<tr><td>Report</td><td>ReportFolder</td></tr>
+</table>
+
+An additional example, this is how to retrieve all Reports:
+
+	sfdx dbs:package:chunk \
+		--folderType ReportFolder \
+		--memberType Report \
+		--target path/for/packages \
+		--userAlias myUserAlias \
+		--chunkSize 5000 \
+		--prefix 05_reports
+		
+	# generates:
+	# ./path/for/packages/05_reports_0001.xml
+	# ./path/for/packages/05_reports_0002.xml
+	# ./path/for/packages/05_reports_0003.xml
+	# ./path/for/packages/05_reports_0004.xml
+	# ./path/for/packages/05_reports_0005.xml
+
+For further reading, see here for listing documents
+[https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_document.htm](https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_document.htm)

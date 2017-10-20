@@ -12,6 +12,7 @@ const listFromOrg = require('./commands/list/list_listFromOrg');
 const addFromOrgCommand = require('./commands/packageList/packageList_addFromOrg');
 const packageBlank = require('./commands/package/package_blank');
 const packageConvertToPackageList = require('./commands/package/package_convertToPackageList');
+const packageChunk = require('./commands/package/package_chunk');
 
 (function () {
   'use strict';
@@ -61,6 +62,7 @@ const packageConvertToPackageList = require('./commands/package/package_convertT
     //-- package
     packageBlank,
     packageConvertToPackageList,
+    packageChunk,
 
     //-- list
     listAllTypes,

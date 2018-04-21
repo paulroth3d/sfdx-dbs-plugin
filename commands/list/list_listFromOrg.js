@@ -90,7 +90,6 @@ function cleanContext(config){
           return (JsForceUtil.printMemberNames(typeMembers));
         })
         .then(function(memberNames){
-          MdApiPrinter.sortAndPrintList(memberNames, '-- no members found --');
           deferred.resolve(memberNames);
         })
         .catch(function(errMsg, errObj){

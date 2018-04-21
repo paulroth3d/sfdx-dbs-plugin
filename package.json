@@ -4,7 +4,8 @@
   "description": "A collection of SalesForce DX CLI plugins by Paul Roth",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "setupDebug": "echo 'uncomment line in script to provide context somewhere in run() within the command:'; echo 'console.log(JSON.stringify(context)); return deferred.promise;'; echo 'Then import command and run command.run(context) within testRunner.js'",
+    "debug": "node --inspect-brk testRunner.js"
   },
   "repository": {
     "type": "git",

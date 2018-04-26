@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "setupDebug": "echo 'uncomment line in script to provide context somewhere in run() within the command:'; echo 'console.log(JSON.stringify(context)); return deferred.promise;'; echo 'Then import command and run command.run(context) within testRunner.js'",
-    "debug": "node --inspect-brk testRunner.js"
+    "debug": "node --inspect-brk testRunner.js",
+    "debugTest": "node --inspect-brk node_modules/grunt/bin/grunt mochaTest:testDebug"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/paulroth3d/sfdx-dbs-plugin#readme",
   "devDependencies": {
     "chai": "4.1.2",
+    "chokidar": "2.0.3",
     "eslint": "4.6.1",
     "grunt": "1.0.1",
     "grunt-contrib-watch": "1.0.0",

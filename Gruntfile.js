@@ -28,9 +28,19 @@ module.exports = function(grunt){
 		    },
 		    src: [
           'test/**/*.js'
-          //'test/**/AbortedPromise-spec.js'
 		    ]
-		  }
+      },
+      testDebug: {
+		    options: {
+		      reporter: 'spec',
+		      quiet: false,
+		      clearRequireCache: true,
+		      noFail: false
+		    },
+		    src: [
+		      'test/**/addFromOrg-spec.js'
+		    ]
+      }
 		},
 		mocha_istanbul: {
 			coverage: {

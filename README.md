@@ -221,3 +221,27 @@ An additional example, this is how to retrieve all Reports:
 
 For further reading, see here for listing documents
 [https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_document.htm](https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_document.htm)
+
+# Continuously Lightning Lint
+
+One of the challenges with `sfdx force:lightning:lint` is being consistent - and always running it before committing.
+
+The goal of `sfdx dbs:watch:lightning -d force-app` (for example) is that it will re-run the lightning:lint when you save your files.
+
+By default, it will only lint on the individual component you're working on (but you can have it re-run against all files if you provide the `--runAllOnChange` or `-r` parameter)
+
+parameters:
+
+* -d --dir (String - required) - the path to the directory to watch (ex: force-app)
+* -v --verbose (flag) - runs the linter in verbose mode (includes style checks)
+* -r --runAllOnChange (flag) - lints all components on save (true) or only the component changed (false - default)
+* -f --filePattern PATTERN (String) - passed through to the --files parameter of lightning lint. Pattern of files to lint.
+* -i --ignorePattern PATTERN (String) - passed through to the --ignore parameter of lightning lint. Pattern of files to ignore.
+
+Example:
+
+	#-- watches the folder (at relative path ./force-app) in verbose mode
+	sfdx dbs:watch:lightning -d force-app -v
+	
+	#-- When making a change, all components (not just the component changed) will be linted
+	sfdx dbs:watch:lightning -d force-app -r

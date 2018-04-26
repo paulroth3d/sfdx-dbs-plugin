@@ -50,7 +50,7 @@ function cleanContext(config){
       name: 'ignorePattern',
       char: 'i',
       description: 'Pattern to use to ignore files',
-      hasValue: false
+      hasValue: true
     },{
       name: 'filePattern',
       char: 'f',

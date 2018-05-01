@@ -66,6 +66,11 @@ function cleanContext(config){
       char: 'r',
       description: 'Run lint against everything (true) on change, or just lightning component changed (false-default)',
       hasValue: false
+    },{
+      name: 'config',
+      char: 'c',
+      description: 'Path to custom ESLint Configuration. (see https://sfdc.co/sfdxCliDefaultEslint)',
+      hasValue: true
     }],
     
     //-- use for testing or move implementation to separate module.

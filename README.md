@@ -237,6 +237,7 @@ parameters:
 * -r --runAllOnChange (flag) - lints all components on save (true) or only the component changed (false - default)
 * -f --filePattern PATTERN (String) - passed through to the --files parameter of lightning lint. Pattern of files to lint.
 * -i --ignorePattern PATTERN (String) - passed through to the --ignore parameter of lightning lint. Pattern of files to ignore.
+* -c --config PATH (String) - path to a custom ESLint file with STYLE settings
 
 Example:
 
@@ -245,3 +246,10 @@ Example:
 	
 	#-- When making a change, all components (not just the component changed) will be linted
 	sfdx dbs:watch:lightning -d force-app -r
+
+## Please Note
+As mentioned under the --config attribute, only STYLE lint configurations are honored.
+
+Others, such unused vars (defaulted to 'last') or use of console statements are not honored.
+
+For more information please see [https://sfdc.co/sfdxCliDefaultEslint](https://sfdc.co/sfdxCliDefaultEslint)

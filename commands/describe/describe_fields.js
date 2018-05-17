@@ -2,14 +2,10 @@
 
 const _ = require('underscore');
 const Q = require('q');
-
-const PackageListAlgebra = require('../../lib/package/modify/PackageListAlgebra');
-const MdApiPackage = require('../../lib/package/MdApiPackage.js');
 const DxConnection = require('../../lib/dx/DxConnection');
 const JsForceUtil = require('../../lib/jsforce/JsForceUtil');
 const MdApiPrompter = require('../../lib/prompt/MdApiPrompter');
-const MdApiPrinter = require('../../lib/package/MdApiPrinter');
-
+const SchemaUtil = require('../../lib/schema/SchemaUtil');
 
 /**
 * Cleans the request and defaults as needed.
@@ -30,6 +26,11 @@ function cleanContext(config){
     throw('--alias is required');
   }
 
+  //-- @TODO: work to allow listing sobjects if the object name is not provided
+  //if (!config.sobject){
+  //  throw('--sobject is required');
+  //}
+
   return (config);
 }
 
@@ -41,24 +42,24 @@ function cleanContext(config){
   'use strict';
   
   module.exports = {
-    topic: 'list',
-    command: 'fromOrg',
-    description: 'Lists metadata from Org',
-    help: 'Lists metadata from Org',
+    topic: 'describe',
+    command: 'fields',
+    description: 'Describes the fields for a Salesforce SObject',
+    help: 'Lists the objects fields for a Salesforce SObject',
     flags: [{
       name: 'alias',
       char: 'a',
       description: 'Connection alias',
       hasValue: true
     },{
-      name: 'type',
-      char: 'y',
-      description: 'Metadata API Type (do not specify to list all)',
+      name: 'sobject',
+      char: 'o',
+      description: 'API name of the SObject to describe',
       hasValue: true
     },{
-      name: 'folder',
-      char: 'f',
-      description: 'Folder within the type to search (only needed for Folder/* types)',
+      name: 'sortFieldsBy',
+      char: 's',
+      description: 'column name to sort the field results by',
       hasValue: true
     }],
 
@@ -77,20 +78,26 @@ function cleanContext(config){
         deferred.reject(err);
         return (deferred.promise);
       }
-      
+
       const dxConnection = new DxConnection();
+      var sObjectDescr;
+
       dxConnection.refreshConnection(context.alias)
         .then(function(jsForce){
-          return (MdApiPrompter.demandType(dxConnection, context.type, '-t|--type [[typeName]]'));
+          //console.log('connection established');
+          return (MdApiPrompter.demandSObject(dxConnection, context.sobject, '-o|--sobject [[sobject api name]]'));
         })
-        .then(function(metadataType){
-          return (JsForceUtil.getTypeMembers(dxConnection, metadataType, context.folder));
+        .then(function(sObjectName){
+          //-- @TODO: use the sobject name to get the description
+          return SchemaUtil.getSObjectDescription(dxConnection, sObjectName);
         })
-        .then(function(typeMembers){
-          return (JsForceUtil.printMemberNames(typeMembers));
+        .then(function(sObjectDescription){
+          sObjectDescr = sObjectDescription;
+          return SchemaUtil.printSObjectFields(sObjectDescription, context.sortFieldsBy);
         })
-        .then(function(memberNames){
-          deferred.resolve(memberNames);
+        .then(function(results){
+          debugger;
+          deferred.resolve(sObjectDescr);
         })
         .catch(function(errMsg, errObj){
           if (errMsg){

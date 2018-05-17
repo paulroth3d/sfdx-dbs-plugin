@@ -14,6 +14,7 @@ const packageBlank = require('./commands/package/package_blank');
 const packageConvertToPackageList = require('./commands/package/package_convertToPackageList');
 const packageChunk = require('./commands/package/package_chunk');
 const watchLightning = require('./commands/watch/watch_lightning');
+const describeFields = require('./commands/describe/describe_fields');
 
 (function () {
   'use strict';
@@ -44,6 +45,9 @@ const watchLightning = require('./commands/watch/watch_lightning');
   },{
     name: 'watch',
     description: 'Watch and run commands as files update'
+  },{
+    name: 'describe',
+    description: 'Describe various salesforce information'
   }];
   
   exports.commands = [
@@ -57,6 +61,9 @@ const watchLightning = require('./commands/watch/watch_lightning');
 
     //-- convert
     convertToPackage,
+
+    //-- describe
+    describeFields,
 
     //-- modify
     manuallyAddToPackageList,

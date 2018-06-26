@@ -96,7 +96,7 @@ function cleanContext(config){
           return SchemaUtil.printSObjectFields(sObjectDescription, context.sortFieldsBy);
         })
         .then(function(results){
-          debugger;
+          //debugger;
           deferred.resolve(sObjectDescr);
         })
         .catch(function(errMsg, errObj){

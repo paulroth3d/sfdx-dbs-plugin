@@ -15,6 +15,9 @@ const packageConvertToPackageList = require('./commands/package/package_convertT
 const packageChunk = require('./commands/package/package_chunk');
 const watchLightning = require('./commands/watch/watch_lightning');
 const describeFields = require('./commands/describe/describe_fields');
+const shareLoginUrl = require('./commands/share/share_loginUrl');
+const shareAccessInfo = require('./commands/share/share_accessInfo');
+const shareFrontDoorUrl = require('./commands/share/share_frontDoorUrl');
 
 (function () {
   'use strict';
@@ -25,6 +28,9 @@ const describeFields = require('./commands/describe/describe_fields');
   };
   
   exports.topics = [{
+    name: 'describe',
+    description: 'Describe various salesforce information'
+  },{
     name:'example',
     description: 'example namespace',
   },{
@@ -34,20 +40,20 @@ const describeFields = require('./commands/describe/describe_fields');
     name:'log',
     description: 'Reports on the latest cli JSON log',
   },{
-    name:'zip',
-    description: 'zip functionality (compress/uncompress)'
-  },{
     name: 'package',
     description: 'Manages and manipulates package files'
   },{
     name: 'packageList',
     description: 'Manages and manipulates packageLists'
   },{
+    name: 'share',
+    description: 'Share Salesforce information'
+  },{
     name: 'watch',
     description: 'Watch and run commands as files update'
   },{
-    name: 'describe',
-    description: 'Describe various salesforce information'
+    name:'zip',
+    description: 'zip functionality (compress/uncompress)'
   }];
   
   exports.commands = [
@@ -78,6 +84,11 @@ const describeFields = require('./commands/describe/describe_fields');
     //-- list
     listAllTypes,
     listFromOrg,
+
+    //-- share access
+    shareLoginUrl,
+    shareFrontDoorUrl,
+    shareAccessInfo,
 
     //-- watch
     watchLightning

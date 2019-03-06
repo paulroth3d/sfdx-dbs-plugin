@@ -211,7 +211,7 @@ function generatePackagePath(targetDir, targetPrefix, index){
       const deferred = Q.defer();
 
       //-- uncomment to refresh context for integration tests
-      //console.log(JSON.stringify(context)); return deferred.promise;
+      // console.log(JSON.stringify(context)); return deferred.promise;
 
       try {
         context = cleanContext(context);

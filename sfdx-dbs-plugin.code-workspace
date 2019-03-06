@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"terminal.integrated.env.osx": {
+			"SFDX_SET_CLIENT_IDS": "sfdx-vscode"
+		},
+		"terminal.integrated.env.linux": {
+			"SFDX_SET_CLIENT_IDS": "sfdx-vscode"
+		},
+		"terminal.integrated.env.windows": {
+			"SFDX_SET_CLIENT_IDS": "sfdx-vscode"
+		}
+	},
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${file}"
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach",
+			"port": 9229
+		}
+    ]
+}
